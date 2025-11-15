@@ -1,0 +1,1214 @@
+/* styles/globals.css */
+@import "tailwindcss";
+
+/* --------------------------------------------------
+   AIRA DESIGN TOKENS (APPLE + CHATGPT)
+-------------------------------------------------- */
+:root {
+  /* Core palette – light mode defaults */
+  --aira-bg: #f5f5f7;             /* page background */
+  --aira-surface: #ffffff;        /* main cards */
+  --aira-surface-elevated: #f9fafb;
+  --aira-border-subtle: rgba(0, 0, 0, 0.06);
+
+  --aira-primary: #0a84ff;        /* Apple-ish blue */
+  --aira-primary-soft: #5e5ce6;   /* soft purple accent */
+  --aira-accent: #30d158;         /* success accent (typing, status) */
+
+  --aira-text: #111827;           /* main text */
+  --aira-text-muted: #6b7280;
+  --aira-text-soft: #4b5563;
+
+  --aira-radius-xl: 28px;
+  --aira-radius-lg: 20px;
+  --aira-radius-md: 14px;
+  --aira-radius-sm: 10px;
+
+  --aira-shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.08);
+  --aira-shadow-strong: 0 32px 90px rgba(15, 23, 42, 0.16);
+
+  --aira-fast: 150ms;
+  --aira-med: 260ms;
+  --aira-slow: 420ms;
+
+  --aira-max-width: 1120px;       /* max chat width */
+}
+
+/* Dark theme – toggled via data-theme="dark" on html */
+html[data-theme="dark"] {
+  --aira-bg: #050816;
+  --aira-surface: rgba(15, 23, 42, 0.96);
+  --aira-surface-elevated: rgba(15, 23, 42, 0.98);
+  --aira-border-subtle: rgba(148, 163, 184, 0.28);
+
+  --aira-primary: #0a84ff;
+  --aira-primary-soft: #5e5ce6;
+  --aira-accent: #30d158;
+
+  --aira-text: #f9fafb;
+  --aira-text-muted: #9ca3af;
+  --aira-text-soft: #e5e7eb;
+}
+/* light theme overrides */
+html[data-theme="light"] {
+  --aira-bg: #f2f3f7;                  /* soft off-white */
+  --aira-surface: #ffffff;
+  --aira-surface-elevated: #f7f8fc;
+  --aira-border-subtle: rgba(15, 23, 42, 0.06);
+
+  --aira-primary: #0a84ff;
+  --aira-primary-soft: #4f46e5;
+  --aira-accent: #30d158;
+
+  --aira-text: #0b1120;
+  --aira-text-muted: #6b7280;
+  --aira-text-soft: #111827;
+}
+
+/* --------------------------------------------------
+   BASE
+-------------------------------------------------- */
+/* --------------------------------------------------
+   BASE
+-------------------------------------------------- */
+/* --------------------------------------------------
+   BASE
+-------------------------------------------------- */
+html,
+body,
+#__next {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Lock the page — we will handle scroll in .messages */
+html {
+  overflow: hidden;
+}
+
+body {
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui,
+    "Segoe UI", sans-serif;
+  background: var(--aira-bg);
+  color: var(--aira-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui,
+    "Segoe UI", sans-serif;
+  background:
+    radial-gradient(1200px 800px at 0% 0%, rgba(94, 92, 230, 0.16), transparent),
+    radial-gradient(900px 700px at 100% 100%, rgba(255, 255, 255, 0.18), transparent),
+    linear-gradient(180deg, var(--aira-bg) 0%, var(--aira-bg) 60%, #020617 100%);
+  color: var(--aira-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar – subtle */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.45);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(148, 163, 184, 0.8);
+}
+
+.app-shell {
+  height: 100%;
+  max-height: 100%;
+  background: var(--aira-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.app-layout {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  min-height: 0; /* IMPORTANT so children can scroll */
+}
+
+
+
+.text-muted {
+  color: var(--aira-text-muted);
+  font-size: 13px;
+}
+
+.hide-mobile {
+  display: inline-flex;
+}
+
+@media (max-width: 900px) {
+  .main-chat {
+    padding: 72px 12px 16px;
+    margin-left: 0 !important;
+  }
+}
+
+
+
+
+/* Soft appear */
+.fade-in {
+  animation: aira-fade-in 0.32s ease-out;
+}
+@keyframes aira-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --------------------------------------------------
+   MATERIALS (FROSTED GLASS)
+-------------------------------------------------- */
+.glass {
+  background: color-mix(
+    in srgb,
+    var(--aira-surface) 76%,
+    transparent 24%
+  );
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
+  border-radius: var(--aira-radius-lg);
+  border: 1px solid var(--aira-border-subtle);
+  box-shadow: var(--aira-shadow-soft);
+}
+
+/* Simple flat surface (no blur) */
+.surface {
+  background: var(--aira-surface);
+  border-radius: var(--aira-radius-md);
+  border: 1px solid var(--aira-border-subtle);
+}
+
+/* --------------------------------------------------
+   SIDEBAR (LEFT HISTORY PANE)
+-------------------------------------------------- */
+/* ------------------------------
+   Aira Sidebar
+   ------------------------------ */
+.aira-sidebar {
+  width: 280px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-right: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(14px) saturate(140%);
+  z-index: 40;
+  /* default: visible on desktop */
+  transform: translateX(0);
+  transition: transform 0.25s ease;
+}
+
+/* closed state (used on desktop when user hides it) */
+.aira-sidebar.closed {
+  transform: translateX(-280px);
+}
+
+/* Mobile: slide completely off screen when closed */
+@media (max-width: 900px) {
+  .aira-sidebar {
+    transform: translateX(-100%);
+  }
+  .aira-sidebar.open {
+    transform: translateX(0);
+  }
+  .aira-sidebar.closed {
+    transform: translateX(-100%);
+  }
+}
+
+
+/* LIGHT MODE: sidebar should also be light, not dark */
+html[data-theme="light"] .aira-sidebar {
+  background: #f5f5f7;
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 0 28px rgba(15, 23, 42, 0.08);
+  color: var(--aira-text-soft);
+}
+
+/* lighten text inside sidebar for light mode */
+html[data-theme="light"] .sidebar-subtitle {
+  color: var(--aira-text-muted);
+}
+html[data-theme="light"] .history-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(10, 132, 255, 0.96),
+    rgba(94, 92, 230, 0.96)
+  );
+  color: #f9fafb;
+}
+html[data-theme="light"] .new-chat-btn {
+  background: #ffffff;
+}
+
+
+/* On desktop always visible even if JS forgets class */
+@media (min-width: 901px) {
+  .aira-sidebar {
+    transform: translateX(0);
+  }
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sidebar-header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sidebar-title {
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.sidebar-subtitle {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--aira-text-muted);
+}
+
+
+
+/* New chat */
+.new-chat-btn {
+  width: 100%;
+  border-radius: 999px;
+  padding: 9px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--aira-surface-elevated);
+  border: 1px solid var(--aira-border-subtle);
+  color: var(--aira-text-soft);
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    background var(--aira-fast),
+    box-shadow var(--aira-fast),
+    transform var(--aira-fast),
+    border-color var(--aira-fast);
+}
+.new-chat-btn .icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 20%, #ffffff, var(--aira-primary));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #0b1120;
+}
+.new-chat-btn:hover {
+  background: color-mix(
+    in srgb,
+    var(--aira-surface-elevated) 80%,
+    var(--aira-primary) 4%
+  );
+  border-color: rgba(37, 99, 235, 0.5);
+  box-shadow: var(--aira-shadow-soft);
+  transform: translateY(-1px);
+}
+
+/* History list */
+.chat-history {
+  flex: 1;
+  margin-top: 6px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.history-item {
+  width: 100%;
+  border-radius: 16px;
+  padding: 9px 11px;
+  margin-bottom: 4px;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--aira-text-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background var(--aira-fast),
+    transform var(--aira-fast),
+    box-shadow var(--aira-fast);
+}
+.history-item:hover {
+  background: color-mix(
+    in srgb,
+    var(--aira-surface-elevated) 80%,
+    var(--aira-primary) 3%
+  );
+  transform: translateY(-1px);
+}
+.history-item.active {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--aira-primary) 90%, var(--aira-primary-soft) 10%),
+    var(--aira-primary-soft)
+  );
+  color: #f9fafb;
+  box-shadow: var(--aira-shadow-soft);
+}
+.history-item .history-sub {
+  font-size: 11px;
+  color: var(--aira-text-muted);
+}
+.history-main {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 8px 0;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.history-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.history-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.history-icon-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  background: transparent;
+  font-size: 11px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #e5e7eb;
+}
+
+.history-icon-btn:hover {
+  background: rgba(148, 163, 184, 0.15);
+}
+
+.history-icon-btn.danger {
+  border-color: rgba(239, 68, 68, 0.7);
+  color: #fecaca;
+}
+
+.history-icon-btn.danger:hover {
+  background: rgba(239, 68, 68, 0.16);
+}
+
+
+/* Sidebar footer */
+.sidebar-footer {
+  border-top: 1px solid var(--aira-border-subtle);
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.user-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.user-avatar,
+.user-avatar-fallback {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid rgba(148, 163, 184, 0.7);
+}
+
+.user-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #e5e7eb, #9ca3af);
+  color: #111827;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+.user-email {
+  font-size: 11px;
+  color: var(--aira-text-muted);
+}
+
+/* Sidebar mobile behaviour – hidden by default */
+@media (max-width: 900px) {
+  .aira-sidebar {
+    transform: translateX(-100%);
+  }
+  .aira-sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* --------------------------------------------------
+   HEADER (TOP BAR)
+-------------------------------------------------- */
+.aira-header {
+  position: fixed;
+  top: 0;
+  left: 280px;
+  right: 0;
+  height: 64px;
+  padding: 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 25;
+  background: color-mix(
+    in srgb,
+    var(--aira-surface) 86%,
+    transparent 14%
+  );
+  backdrop-filter: blur(22px) saturate(150%);
+  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  border-bottom: 1px solid var(--aira-border-subtle);
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+.header-status {
+  font-size: 11px;
+  color: var(--aira-accent);
+}
+
+/* header on mobile spans full width */
+@media (max-width: 900px) {
+  .aira-header {
+    left: 0;
+  }
+}
+
+/* Menu button (☰) */
+.menu-btn {
+  border-radius: 999px;
+  border: 1px solid var(--aira-border-subtle);
+  width: 34px;
+  height: 34px;
+  font-size: 18px;
+  background: var(--aira-surface-elevated);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--aira-text-soft);
+  transition:
+    background var(--aira-fast),
+    transform var(--aira-fast),
+    box-shadow var(--aira-fast),
+    border-color var(--aira-fast);
+}
+.menu-btn:hover {
+  background: color-mix(
+    in srgb,
+    var(--aira-surface-elevated) 82%,
+    var(--aira-primary) 6%
+  );
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: var(--aira-shadow-soft);
+  transform: translateY(-1px);
+}
+
+/* Rename */
+.rename-btn {
+  border-radius: 999px;
+  border: 1px solid var(--aira-border-subtle);
+  padding: 7px 14px;
+  background: var(--aira-surface-elevated);
+  font-size: 13px;
+  color: var(--aira-text-soft);
+  cursor: pointer;
+  transition:
+    background var(--aira-fast),
+    transform var(--aira-fast),
+    border-color var(--aira-fast);
+}
+.rename-btn:hover {
+  background: color-mix(
+    in srgb,
+    var(--aira-surface-elevated) 82%,
+    var(--aira-primary) 6%
+  );
+  border-color: rgba(37, 99, 235, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Theme toggle (light/dark) */
+.theme-toggle {
+  border-radius: 999px;
+  border: 1px solid var(--aira-border-subtle);
+  padding: 6px 10px;
+  font-size: 11px;
+  background: var(--aira-surface-elevated);
+  color: var(--aira-text-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition:
+    background var(--aira-fast),
+    transform var(--aira-fast),
+    box-shadow var(--aira-fast);
+}
+.theme-toggle:hover {
+  background: color-mix(
+    in srgb,
+    var(--aira-surface-elevated) 80%,
+    var(--aira-primary-soft) 8%
+  );
+  box-shadow: var(--aira-shadow-soft);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------
+   MAIN CHAT LAYOUT
+-------------------------------------------------- */
+/* Main chat area layout — full height, only messages scroll */
+.main-chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 80px 24px 24px; /* header space */
+  transition: margin-left 0.3s ease;
+  background: var(--aira-bg);
+  overflow: hidden; /* stop this layer from scrolling */
+}
+
+/* with / without sidebar */
+.main-chat.with-sidebar {
+  margin-left: 280px;
+}
+.main-chat.no-sidebar {
+  margin-left: 0;
+}
+
+/* Chat column */
+.chat-panel {
+  flex: 1;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* VERY important for scroll */
+}
+
+/* Only messages scroll */
+.messages {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 8px 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+}
+
+
+
+/* Empty-state helper (optional) */
+.empty-state {
+  margin-top: 80px;
+  text-align: center;
+  color: var(--aira-text-muted);
+  font-size: 14px;
+}
+.empty-state-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* --------------------------------------------------
+   BUBBLES
+-------------------------------------------------- */
+/* Centered message rows like ChatGPT */
+.bubble {
+  width: 100%;
+  max-width: 850px;          /* nice wide column on desktop */
+  padding: 14px 18px;
+  margin: 2px 0;
+  border-radius: 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  animation: bubble-in 0.22s ease-out;
+}
+
+/* user bubble – colored like iMessage */
+.bubble.user {
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 14px;
+  border-bottom-right-radius: 6px;
+  background: #0b93f6;
+  color: #f9fafb;
+  border: 1px solid #0b93f6;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+}
+
+/* Assistant bubble – neutral band, like ChatGPT grey rows */
+/* assistant bubble – tuned for light & dark */
+.bubble.assistant {
+  margin-left: 0;
+  margin-right: 0;
+  border-radius: 14px;
+  border-bottom-left-radius: 6px;
+  background: color-mix(in srgb, var(--aira-surface) 94%, #e5e7eb 6%);
+  border: 1px solid var(--aira-border-subtle);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+/* dark-specific tweak */
+html[data-theme="dark"] .bubble.assistant {
+  background: color-mix(in srgb, #0b1120 85%, #111827 15%);
+}
+
+
+/* Typography inside assistant bubble (markdown-style) */
+.bubble.assistant h1,
+.bubble.assistant h2,
+.bubble.assistant h3 {
+  margin-top: 0.3rem;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+}
+.bubble.assistant h1 { font-size: 1.15rem; }
+.bubble.assistant h2 { font-size: 1.05rem; }
+.bubble.assistant h3 { font-size: 1rem; }
+
+.bubble.assistant p {
+  margin: 0.25rem 0;
+}
+.bubble.assistant ul,
+.bubble.assistant ol {
+  margin: 0.25rem 0 0.25rem 1.2rem;
+  padding-left: 0.9rem;
+}
+.bubble.assistant li {
+  margin: 0.1rem 0;
+}
+
+/* Code blocks & inline code */
+.bubble.assistant pre {
+  margin: 0.45rem 0;
+  padding: 0.6rem 0.7rem;
+  border-radius: 12px;
+  background: #020617;
+  color: #e5e7eb;
+  font-size: 12px;
+  overflow-x: auto;
+}
+.bubble.assistant code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 12px;
+  background: rgba(15, 23, 42, 0.06);
+  padding: 1px 4px;
+  border-radius: 4px;
+}
+
+.bubble.assistant blockquote {
+  margin: 0.4rem 0;
+  padding-left: 0.7rem;
+  border-left: 3px solid rgba(148, 163, 184, 0.7);
+  color: var(--aira-text-muted);
+  font-style: italic;
+}
+
+/* --------------------------------------------------
+   INPUT BAR
+-------------------------------------------------- */
+/* Input row pinned near bottom */
+.input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.input-field {
+  flex: 1;
+  border-radius: 999px;
+  border: 1px solid var(--aira-border-subtle);
+  padding: 11px 14px;
+  background: color-mix(
+    in srgb,
+    var(--aira-surface-elevated) 80%,
+    transparent 20%
+  );
+  color: var(--aira-text);
+  font-size: 14px;
+  outline: none;
+  transition:
+    border-color var(--aira-fast),
+    box-shadow var(--aira-fast),
+    background var(--aira-fast);
+}
+.input-field::placeholder {
+  color: rgba(148, 163, 184, 0.8);
+}
+.input-field:focus {
+  border-color: rgba(37, 99, 235, 0.7);
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.25),
+    0 18px 40px rgba(15, 23, 42, 0.18);
+  background: var(--aira-surface-elevated);
+}
+
+/* send button – round, accent */
+.btn-primary {
+  border-radius: 999px;
+  border: none;
+  padding: 11px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f9fafb;
+  background: linear-gradient(
+    135deg,
+    var(--aira-primary),
+    var(--aira-primary-soft)
+  );
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.6);
+  transition:
+    transform var(--aira-fast),
+    box-shadow var(--aira-fast),
+    opacity var(--aira-fast);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 42px rgba(37, 99, 235, 0.7);
+}
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.6);
+}
+
+/* generic ghost button */
+.btn-ghost {
+  border-radius: 999px;
+  border: 1px solid var(--aira-border-subtle);
+  padding: 7px 12px;
+  background: var(--aira-surface-elevated);
+  color: var(--aira-text-soft);
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition:
+    background var(--aira-fast),
+    transform var(--aira-fast),
+    box-shadow var(--aira-fast),
+    border-color var(--aira-fast);
+}
+.btn-ghost:hover {
+  background: color-mix(
+    in srgb,
+    var(--aira-surface-elevated) 82%,
+    var(--aira-primary) 6%
+  );
+  border-color: rgba(37, 99, 235, 0.45);
+  box-shadow: var(--aira-shadow-soft);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------
+   TYPING INDICATOR
+-------------------------------------------------- */
+.typing-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  background: var(--aira-surface-elevated);
+  border: 1px solid var(--aira-border-subtle);
+  margin-top: 4px;
+}
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--aira-text-muted);
+  animation: typing-bounce 1.1s infinite ease-in-out;
+}
+.typing-dot:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.typing-dot:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+@keyframes typing-bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* --------------------------------------------------
+   MODALS (Settings / Account / Rename)
+-------------------------------------------------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 480px;
+  border-radius: 24px;
+  padding: 18px 18px 16px;
+  background: var(--aira-surface);
+  border: 1px solid var(--aira-border-subtle);
+  box-shadow: var(--aira-shadow-strong);
+  animation: modal-in 0.22s ease-out;
+}
+
+/* Simple modal header/footer helpers */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.modal-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+.modal-close-btn {
+  border-radius: 999px;
+  border: 1px solid var(--aira-border-subtle);
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  background: var(--aira-surface-elevated);
+  cursor: pointer;
+}
+.modal-close-btn:hover {
+  background: color-mix(
+    in srgb,
+    var(--aira-surface-elevated) 82%,
+    var(--aira-primary) 6%
+  );
+}
+
+/* --------------------------------------------------
+   ANIMATIONS (bubbles & modal)
+-------------------------------------------------- */
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* --------------------------------------------
+   FIXED LIGHT MODE (Apple UI inspired)
+--------------------------------------------- */
+html[data-theme="light"] {
+  --aira-bg: #ffffff;
+  --aira-surface: #ffffff;
+  --aira-surface-elevated: #f5f6f8;
+  --aira-border-subtle: rgba(0, 0, 0, 0.08);
+
+  --aira-text: #1c1c1e;
+  --aira-text-muted: #8e8e93;
+  --aira-text-soft: #6e6e73;
+}
+
+/* Chat panel background fix */
+.main-chat {
+  background: var(--aira-bg);
+}
+
+/* Lighter gradients for light mode */
+html[data-theme="light"] .btn-primary {
+  box-shadow: 0 8px 20px rgba(0, 122, 255, 0.25);
+}
+
+/* Messages readable in light mode */
+html[data-theme="light"] .bubble.assistant {
+  background: #f2f2f7;
+  border-color: rgba(0,0,0,0.06);
+}
+
+/* User bubble light mode */
+html[data-theme="light"] .bubble.user {
+  background: #007aff;
+}
+/* --------------------------------------------------
+   🔧 FIX INPUT BAR RESPONSIVENESS + ALIGNMENT
+-------------------------------------------------- */
+
+/* Main input row (desktop + phone) */
+.input-row {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 1100px;
+  padding: 16px 20px;
+  margin: 0 auto;
+  background: var(--aira-bg);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border-top: 1px solid var(--aira-border-subtle);
+  z-index: 50;
+}
+
+/* The text input */
+.input-field {
+  flex: 1;
+  min-width: 0; /* prevents shrinking overflow */
+  padding: 14px 18px;
+  border-radius: 999px;
+  font-size: 15px;
+}
+
+/* Send button */
+.btn-primary {
+  flex-shrink: 0; /* prevents send button from shrinking or overlapping */
+  padding: 14px 22px;
+  font-size: 15px;
+  border-radius: 999px;
+}
+
+/* Mobile behaviour */
+@media (max-width: 600px) {
+  .input-row {
+    gap: 8px;
+    padding: 14px;
+  }
+
+  .input-field {
+    font-size: 14px;
+    padding: 12px 16px;
+  }
+
+  .btn-primary {
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+}
+
+/* Prevent whole-page scroll — only chat messages scroll */
+html, body {
+  overscroll-behavior: none;
+}
+
+.main-chat {
+  height: calc(100vh - 64px); /* below header */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 120px; /* space for input bar */
+}
+/* --------------------------------------------------
+   📱 MOBILE SAFE AREA FIXES
+   - Sidebar fits between header and bottom
+   -------------------------------------------------- */
+@media (max-width: 900px) {
+  .aira-sidebar {
+    /* Start below the fixed header (approx 64px high) */
+    top: 64px;
+
+    /* Height = full device viewport minus header height */
+    height: calc(100vh - 64px);
+    height: calc(100dvh - 64px); /* modern mobile browsers */
+
+    /* Make sure bottom content isn't hidden behind browser bar */
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+}
+@media (max-width: 600px) {
+  /* Pin input bar above iOS/Android browser UI */
+  .input-row {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    max-width: none;
+    margin: 0 auto;
+    padding: 10px 12px calc(12px + env(safe-area-inset-bottom));
+    background: var(--aira-bg);
+    border-top: 1px solid var(--aira-border-subtle);
+    z-index: 60;
+  }
+
+  /* Make sure messages never hide under the input row */
+  .messages {
+    padding-bottom: calc(150px + env(safe-area-inset-bottom));
+  }
+}
+.menu-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  border-radius: 12px;
+  padding: 7px 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+  color: var(--aira-text-soft);
+}
+
+.menu-item:hover {
+  background: rgba(148, 163, 184, 0.14);
+  transform: translateY(-1px);
+}
+
+.menu-signout {
+  color: #ef4444;
+}
+
+.menu-signout .menu-icon {
+  background: rgba(239, 68, 68, 0.18);
+}
+
+.menu-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(148, 163, 184, 0.22);
+  font-size: 14px;
+}
+
+.menu-label {
+  flex: 1;
+  text-align: left;
+}
+/* =========================================================
+   SIDEBAR TOGGLE – make the ☰ button open/close the sidebar
+   ========================================================= */
+.aira-sidebar {
+  /* Sidebar is visible when 'open' (default) */
+  transform: translateX(0);
+  transition: transform 0.28s ease;
+}
+
+/* When we add class "closed" from React, slide it off the screen */
+.aira-sidebar.closed {
+  transform: translateX(-100%);
+}
+
+/* Main chat: shift right when sidebar is open on desktop */
+.main-chat.with-sidebar {
+  margin-left: 280px;  /* match sidebar width */
+}
+
+/* When sidebar is closed, chat takes full width */
+.main-chat.no-sidebar {
+  margin-left: 0;
+}
+
+/* On phones, chat should always use full width.
+   We still slide the sidebar over the top, but don't offset content. */
+@media (max-width: 900px) {
+  .main-chat.with-sidebar {
+    margin-left: 0;
+  }
+}
